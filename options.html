@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="YouTube Labels Extension Options Page" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>YouTube Labels</title>
+    <style>
+      body {
+        font-family: "Montserrat", Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #333;
+        font-weight: lighter;
+        font-size: 30px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .success {
+        color: green;
+        font-weight: bold;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+      .logoheading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      li,
+      p {
+        font-size: 16px;
+      }
+      h2 {
+        margin-top: 20px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logoheading">
+      <!-- <img
+        src="Gemini2M.png"
+        alt="Yt Labels Logo"
+        style="width: 50px; height: 50px; margin-right: 10px"
+      /> -->
+      <img
+        src="Gemini1.png"
+        alt="YouTube Labels Logo"
+        style="width: 50px; height: 50px; margin-right: 10px"
+      />
+      <h1>YouTube Labels</h1>
+    </div>
+
+    <h2>Enter Your Google API Key</h2>
+    <input type="text" id="apiKey" placeholder="Enter your Google API Key" />
+    <button id="save">Save API Key</button>
+    <!-- Add this after the input field and save button -->
+    <div
+      id="maskedApiKey"
+      style="margin-top: 10px; font-family: monospace; font-size: 12px"
+    ></div>
+    <p id="status"></p>
+
+    <h2>How to Get Your API Key</h2>
+    <ol>
+      <li>
+        Go to the
+        <a href="https://ai.google.dev/aistudio" target="_blank"
+          >Google AI Studio</a
+        >
+        and sign in with your Google account.
+      </li>
+      <li>Click on "Get API Key" and then "Create API Key".</li>
+      <li>Click on "Create API Key in the new project".</li>
+      <li>
+        Copy the generated API key and paste it above. You can now access AI
+        analysis on YouTube. Open a YouTube video and you should see the
+        analysis in a few seconds.
+      </li>
+      <li>
+        If you have a GCP account, create a paid plan API to increase your
+        analysis limits.
+      </li>
+    </ol>
+
+    <!-- <h2>Product Video</h2>
+    <p>
+      Watch our
+      <a href="YOUR_VIDEO_LINK_HERE" target="_blank">product video</a> for more
+      information.
+    </p> -->
+
+    <h2>Features</h2>
+    <ul>
+      <li>
+        The Basic Plan offers full video analysis on the YouTube video page. The
+        analysis includes an accurate title, summary, labels, thumbnail
+        analysis, fact-checks, and relevant search queries and similar videos
+        with better rank ( Ranked Videos ). Explanations are provided for each
+        label and fact-check. The analysis is done in real-time and is available
+        for all videos with transcripts on YouTube. Currently, English is the
+        only supported language. The analysis is powered by the Google Gemini
+        API.
+      </li>
+      <li>
+        Accurate title and the Label with thumbnail-analysis are available for
+        every video on the subscriptions page as you scroll and on the search
+        page for the top 5 results.
+      </li>
+      <li>
+        The extension automatically adapts to your YouTube light/dark theme.
+      </li>
+      <li>
+        If you think the analysis is incorrect, you can request a re-analysis by
+        clicking on the "Request Reanalysis" button.
+      </li>
+    </ul>
+
+    <h2>Thumbnail Analysis</h2>
+    <p>
+      Thumbnail analysis is available for all videos and includes two labels:
+    </p>
+    <ul>
+      <li>
+        <strong>Clickbait Detection:</strong> This label indicates whether the
+        thumbnail is considered clickbait. A thumbnail will be flagged as
+        clickbait if it doesn't match the video's content.
+      </li>
+      <li>
+        <strong>Manipulation Detection:</strong> This label determines if the
+        thumbnail has been edited, manipulated, AI-generated, or is misleading.
+        A thumbnail will receive this label if it has been altered or shows no
+        correlation to the video's content.
+      </li>
+    </ul>
+    <p>
+      The analysis is based on comparing the image and video content to ensure
+      accuracy.
+    </p>
+
+    <h2>Limits</h2>
+    <ul>
+      <li>
+        The Basic Plan allows analysis of up to <strong>7 new</strong> videos
+        per minute and <strong>1500 new</strong> videos per day. There is no
+        limit on pre-analyzed videos from the database or local cache. If you
+        need to increase these limits, you can use the paid API from Google
+        Cloud or wait for the Pro Plan.
+      </li>
+      <li>
+        Videos that are up to 2 hours long can be analyzed. Videos longer than 2
+        hours may not be analyzed, depending on the speed and volume of speech
+        in the video.
+      </li>
+      <li>
+        Analysis happens automatically, so please be aware of the limits. If you
+        exceed the limit, you will need to wait for a minute before continuing
+        with the next analysis.
+      </li>
+      <li>
+        The extension may not perform well with the latest and breaking news,
+        possibly marking them as clickbait or misleading. Please disregard these
+        results on the newest videos. We are working to fix this issue soon.
+      </li>
+    </ul>
+
+    <h2>Pro Features (Coming Soon)</h2>
+    <p>
+      The Pro Plan will introduce enhanced features to elevate your experience,
+      including:
+    </p>
+    <ul>
+      <li>Home page analysis</li>
+      <li>Higher usage limits</li>
+      <li>Watch page suggestions analysis</li>
+      <li>Comments analysis</li>
+      <li>And more exciting features...</li>
+    </ul>
+    <p>
+      Stay tuned for more information. The Pro Plan will be available for a
+      small monthly fee.
+    </p>
+
+    <h2>Contact Us</h2>
+    <p>
+      If you have any questions or issues or feature suggestions, please don't
+      hesitate to reach out:
+    </p>
+    <ul>
+      <li>
+        Email:
+        <a href="mailto:ytlabelsdeveloper@gmail.com"
+          >ytlabelsdeveloper@gmail.com</a
+        >
+      </li>
+      <li>
+        Website:
+        <a
+          href="https://prasanthgondi.github.io/ytlabelslandingpage/#"
+          target="_blank"
+          >YT Labels</a
+        >
+      </li>
+    </ul>
+
+    <div class="logoheading" style="margin-top: 40px">
+      <h2>
+        You can access this page at any time by clicking on the extension icon
+        in the top bar.
+      </h2>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

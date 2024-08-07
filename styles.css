@@ -1,0 +1,146 @@
+.bounce-loader {
+  display: inline-block;
+}
+
+.thumbnail-bounce-loader {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.search-bounce-loader {
+  position: absolute;
+  bottom: 10px;
+  left: 30px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.bounce1,
+.bounce2,
+.bounce3 {
+  width: 7px;
+  height: 7px;
+  background-color: #e50914;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.bounce11,
+.bounce12,
+.bounce13 {
+  width: 9px;
+  height: 9px;
+  background-color: #e50914;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.bounce1 {
+  animation-delay: -0.32s;
+}
+
+.bounce2 {
+  animation-delay: -0.16s;
+}
+
+.bounce11 {
+  animation-delay: -0.32s;
+}
+
+.bounce12 {
+  animation-delay: -0.16s;
+}
+
+@keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.searchAnalysis-overlay {
+  position: absolute;
+  top: 4px; /* Adjust as needed */
+  right: 4px;
+  padding: 7px;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.clickbait-overlay {
+  position: absolute;
+  top: 2px; /* Adjust as needed */
+  left: 2px;
+  background-color: white;
+  color: #e50914;
+  padding: 7px;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.subscriptions-overlay {
+  position: absolute;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 10px;
+  pointer-events: none; /* Ensures the overlay doesn't interfere with clicks on the thumbnail */
+  max-width: calc(
+    100% - 10px
+  ); /* Ensures the overlay doesn't exceed the thumbnail width */
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clickbait-loader {
+  position: absolute;
+  top: 5px; /* Adjust as needed */
+  left: 5px;
+  padding: 5px;
+}
+
+.source-queries-heading {
+  font-size: 16px;
+  margin-top: 15px;
+  display: block;
+}
+.source-query {
+  /* background-color: #efefee;
+  color: black; */
+  padding: 10px;
+  font-size: 14px;
+  margin-right: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+.youtube-dark-mode {
+  background-color: #212121;
+  color: #ffffff;
+}
+
+.youtube-light-mode {
+  background-color: #efefee;
+  color: black;
+}

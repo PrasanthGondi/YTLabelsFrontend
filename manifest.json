@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Labels",
+  "description": "Add labels to YouTube videos",
+  "icons": {
+    "128": "/icons/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "/icons/icon128.png",
+      "48": "/icons/icon48.png",
+      "32": "/icons/icon32.png",
+      "16": "/icons/icon16.png"
+    },
+    "default_title": "YouTube Labels Options"
+  },
+  "version": "1.0",
+  "options_page": "options.html",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "http://localhost:2612/*",
+    "https://youtubelabelsbackend.uc.r.appspot.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["textAnalyser.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["searchPageAnalysisWithTranscript.js"],
+      "css": ["styles.css"]
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["subscriptionsPageAnalysis.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
