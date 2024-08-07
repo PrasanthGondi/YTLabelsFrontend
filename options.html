@@ -10,6 +10,36 @@
     />
     <title>YouTube Labels</title>
     <style>
+      :root {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --input-bg: #ffffff;
+        --input-border: #cccccc;
+        --button-bg: #4caf50;
+        --button-hover: #45a049;
+        --success-color: #4caf50;
+        --error-color: #f44336;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #1a1a1a;
+          --text-color: #f0f0f0;
+          --input-bg: #2a2a2a;
+          --input-border: #444444;
+          --button-bg: #45a049;
+          --button-hover: #4caf50;
+          --success-color: #66bb6a;
+          --error-color: #ef5350;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .list-image {
+          filter: brightness(0.8) contrast(1.2);
+        }
+      }
+
       body {
         font-family: "Montserrat", Arial, sans-serif;
         line-height: 1.6;
@@ -17,59 +47,106 @@
         padding: 20px;
         max-width: 800px;
         margin: 0 auto;
+        background-color: var(--bg-color);
+        color: var(--text-color);
       }
+
       h1 {
-        color: #333;
         font-weight: lighter;
         font-size: 30px;
       }
+
       input[type="text"] {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
+        background-color: var(--input-bg);
+        color: var(--text-color);
+        border: 1px solid var(--input-border);
       }
+
       button {
-        background-color: #4caf50;
+        background-color: var(--button-bg);
         color: white;
         padding: 10px 15px;
         border: none;
         cursor: pointer;
         border-radius: 10px;
       }
+
       button:hover {
-        background-color: #45a049;
+        background-color: var(--button-hover);
       }
+
       .success {
-        color: green;
+        color: var(--success-color);
         font-weight: bold;
       }
+
       .error {
-        color: red;
+        color: var(--error-color);
         font-weight: bold;
       }
+
       .logoheading {
         display: flex;
         align-items: center;
         justify-content: center;
       }
+
       li,
       p {
         font-size: 16px;
       }
+
       h2 {
         margin-top: 20px;
         font-weight: 600;
+      }
+
+      a {
+        color: var(--button-bg);
+      }
+
+      a:hover {
+        color: var(--button-hover);
+      }
+
+      .list-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .list-image-toosmall {
+        max-width: 150px;
+      }
+
+      .list-image-small {
+        max-width: 200px;
+      }
+
+      .list-image-medium {
+        max-width: 400px;
+      }
+
+      .list-image-large {
+        max-width: 600px;
+      }
+
+      .disclaimer {
+        font-size: 12px;
+        margin-top: 20px;
+        color: #999999;
       }
     </style>
   </head>
   <body>
     <div class="logoheading">
-      <!-- <img
-        src="Gemini2M.png"
-        alt="Yt Labels Logo"
-        style="width: 50px; height: 50px; margin-right: 10px"
-      /> -->
       <img
         src="Gemini1.png"
         alt="YouTube Labels Logo"
@@ -78,17 +155,16 @@
       <h1>YouTube Labels</h1>
     </div>
 
-    <h2>Enter Your Google API Key</h2>
-    <input type="text" id="apiKey" placeholder="Enter your Google API Key" />
+    <h2>Enter Your Gemini API Key</h2>
+    <input type="text" id="apiKey" placeholder="Enter your Gemini API Key" />
     <button id="save">Save API Key</button>
-    <!-- Add this after the input field and save button -->
     <div
       id="maskedApiKey"
       style="margin-top: 10px; font-family: monospace; font-size: 12px"
     ></div>
     <p id="status"></p>
 
-    <h2>How to Get Your API Key</h2>
+    <h2>How to Get Your Free API Key</h2>
     <ol>
       <li>
         Go to the
@@ -96,13 +172,20 @@
           >Google AI Studio</a
         >
         and sign in with your Google account.
+        <img src="ai_studio.png" class="list-image list-image-medium" />
       </li>
-      <li>Click on "Get API Key" and then "Create API Key".</li>
-      <li>Click on "Create API Key in the new project".</li>
       <li>
-        Copy the generated API key and paste it above. You can now access AI
-        analysis on YouTube. Open a YouTube video and you should see the
-        analysis in a few seconds.
+        <div>Click on "Get API Key" and then "Create API Key".</div>
+        <img src="get_api.png" class="list-image list-image-toosmall" />
+        <img src="create_api.png" class="list-image list-image-small" />
+      </li>
+      <li>Click on "Create API Key in the new project".</li>
+      <img src="create_project.png" class="list-image list-image-medium" />
+      <img src="copy.png" class="list-image list-image-toosmall" />
+      <li>
+        Copy the generated API key, paste it above and save it. You can now
+        access AI analysis on YouTube. Open a YouTube video and you should see
+        the analysis in a few seconds.
       </li>
       <li>
         If you have a GCP account, create a paid plan API to increase your
@@ -110,12 +193,12 @@
       </li>
     </ol>
 
-    <!-- <h2>Product Video</h2>
+    <h2>Product Video</h2>
     <p>
       Watch our
       <a href="YOUR_VIDEO_LINK_HERE" target="_blank">product video</a> for more
       information.
-    </p> -->
+    </p>
 
     <h2>Features</h2>
     <ul>
@@ -128,14 +211,18 @@
         for all videos with transcripts on YouTube. Currently, English is the
         only supported language. The analysis is powered by the Google Gemini
         API.
+        <img src="watch_page.png" class="list-image" />
       </li>
       <li>
         Accurate title and the Label with thumbnail-analysis are available for
         every video on the subscriptions page as you scroll and on the search
         page for the top 5 results.
+        <img src="subscriptions_page.png" class="list-image" />
+        <img src="search_page.png" class="list-image" />
       </li>
       <li>
         The extension automatically adapts to your YouTube light/dark theme.
+        <img src="dark_mode.png" class="list-image" />
       </li>
       <li>
         If you think the analysis is incorrect, you can request a re-analysis by
@@ -163,6 +250,7 @@
     <p>
       The analysis is based on comparing the image and video content to ensure
       accuracy.
+      <img src="thumbnail_analysis.png" class="list-image" />
     </p>
 
     <h2>Limits</h2>
@@ -228,6 +316,14 @@
           >YT Labels</a
         >
       </li>
+      <li>
+        Privacy Policy:
+        <a
+          href="https://prasanthgondi.github.io/ytlabelsPrivacyPolicy/"
+          target="_blank"
+          >YT Labels Privacy Policy</a
+        >
+      </li>
     </ul>
 
     <div class="logoheading" style="margin-top: 40px">
@@ -236,6 +332,12 @@
         in the top bar.
       </h2>
     </div>
+
+    <p class="disclaimer">
+      This extension uses Gemini API, which is experimental technology. The
+      content generated may sometimes be inaccurate, inconsistent, or
+      inappropriate.
+    </p>
 
     <script src="options.js"></script>
   </body>

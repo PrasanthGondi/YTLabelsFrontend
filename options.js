@@ -1,3 +1,20 @@
+function setTheme() {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
+}
+
+// Call setTheme initially
+setTheme();
+
+// Listen for changes in color scheme
+window.matchMedia("(prefers-color-scheme: dark)").addListener(setTheme);
+
 function maskApiKey(apiKey) {
   if (apiKey.length <= 4) {
     return apiKey;
@@ -58,5 +75,8 @@ function restoreOptions() {
   );
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
+document.addEventListener("DOMContentLoaded", function () {
+  restoreOptions();
+  setTheme();
+});
 document.getElementById("save").addEventListener("click", saveOptions);
