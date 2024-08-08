@@ -64,6 +64,29 @@ function extractAndDisplayInfo() {
     };
   }
 
+  function isNewYouTubeLayout() {
+    // Check for the "fixed-columns-secondary" div, which contains the new right sidebar
+    const fixedColumnsSecondary = document.getElementById(
+      "fixed-columns-secondary"
+    );
+
+    // Check for the "below" div inside "primary-inner", which now contains suggestions
+    const belowInPrimary = document.querySelector("#primary-inner #below");
+
+    return fixedColumnsSecondary && belowInPrimary;
+  }
+
+  function isTheaterMode() {
+    const sizeButton = document.querySelector(".ytp-size-button");
+    if (sizeButton) {
+      // Check if the title attribute contains "Theater mode"
+      return !sizeButton.getAttribute("title").includes("Theater mode");
+    }
+    return false;
+  }
+
+  console.log("Theatre Mode:", isTheaterMode());
+
   async function getBestThumbnail(videoId) {
     const thumbnails = getYouTubeThumbnails(videoId);
     if (!thumbnails) return null;
@@ -90,6 +113,18 @@ function extractAndDisplayInfo() {
     if (!showTranscriptButton) {
       throw new Error("🚫 Transcript not available for analysis");
     }
+
+    // if (!showTranscriptButton) {
+    //   console.log("Hello: Show transcript button not found");
+    //   const button = document.getElementById("expand");
+    //   if (button) {
+    //     button.click();
+    //     console.log("Button clicked successfully");
+    //   } else {
+    //     console.log("Button not found");
+    //     throw new Error("🚫 Transcript not available for analysis");
+    //   }
+    // }
 
     const videoId = getVideoId();
     const cachedAnalysis = await getCachedAnalysis(videoId);
@@ -277,7 +312,11 @@ function extractAndDisplayInfo() {
     processStarted = true;
 
     console.log("Process Video function running");
-    const titleElement = document.querySelector("ytd-watch-metadata #title");
+    // const titleElement = document.querySelector("ytd-watch-metadata #title");
+    const titleElement =
+      isNewYouTubeLayout() && !isTheaterMode()
+        ? document.getElementById("player-container-outer")
+        : document.querySelector("ytd-watch-metadata #title");
     createLoaderContainer(titleElement);
     // createReanalyseButton(titleElement);
 
@@ -537,6 +576,9 @@ function extractAndDisplayInfo() {
     `;
     elements.loaderContainer.style.display = "block";
     elements.loaderContainer.classList.add("loading");
+    if (isNewYouTubeLayout() && !isTheaterMode()) {
+      elements.loaderContainer.style.marginTop = "10px";
+    }
   }
 
   function createReanalyseButton(titleElement) {
@@ -698,7 +740,10 @@ function extractAndDisplayInfo() {
     elements.loaderContainer.classList.remove("loading");
     elements.loaderContainer.style.display = "none";
 
-    const titleElement = document.querySelector("ytd-watch-metadata #title");
+    const titleElement =
+      isNewYouTubeLayout() && !isTheaterMode()
+        ? document.getElementById("player-container-outer")
+        : document.querySelector("ytd-watch-metadata #title");
     const formattedTitle = document.querySelector(
       "yt-formatted-string.style-scope.ytd-watch-metadata"
     );
@@ -748,6 +793,10 @@ function extractAndDisplayInfo() {
       elements.alternativeTitleElement.textContent = `(${accurateTitle})`;
       elements.alternativeTitleElement.style.fontSize = "16px";
       elements.alternativeTitleElement.style.fontWeight = "bold";
+      if (isNewYouTubeLayout() && !isTheaterMode()) {
+        elements.alternativeTitleElement.style.marginTop = "10px";
+        elements.alternativeTitleElement.style.fontSize = "18px";
+      }
       elements.alternativeTitleElement.style.color = isDarkMode
         ? "white"
         : "black";
@@ -1002,6 +1051,18 @@ function extractAndDisplayInfo() {
     );
     if (closeButton) {
       closeButton.click();
+      // const button = document.getElementById("visibility-button");
+      // if (button) {
+      //   const clickableButton = button.querySelector("button");
+      //   if (clickableButton) {
+      //     clickableButton.click();
+      //     console.log("Button clicked successfully");
+      //   } else {
+      //     console.log("Clickable button not found within the container");
+      //   }
+      // } else {
+      //   console.log("Button container not found");
+      // }
     } else {
       console.error("Close button not found. Transcript cannot be closed.");
     }
