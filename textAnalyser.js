@@ -790,7 +790,7 @@ function extractAndDisplayInfo() {
           elements.alternativeTitleElement
         );
       }
-      elements.alternativeTitleElement.textContent = `(${accurateTitle})`;
+      elements.alternativeTitleElement.textContent = `(${accurateTitle} 💯)`;
       elements.alternativeTitleElement.style.fontSize = "16px";
       elements.alternativeTitleElement.style.fontWeight = "bold";
       if (isNewYouTubeLayout() && !isTheaterMode()) {
