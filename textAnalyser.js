@@ -211,7 +211,7 @@ function extractAndDisplayInfo() {
 
   async function checkDatabaseAnalysis(videoId) {
     const response = await fetch(
-      "https://youtubelabelsbackend.uc.r.appspot.com/database-check",
+      "https://youtubelabelsbackendindia.el.r.appspot.com/database-check",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -247,7 +247,7 @@ function extractAndDisplayInfo() {
     }
     try {
       const response = await fetch(
-        "https://youtubelabelsbackend.uc.r.appspot.com/get-ranked-videos",
+        "https://youtubelabelsbackendindia.el.r.appspot.com/get-ranked-videos",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -298,7 +298,7 @@ function extractAndDisplayInfo() {
 
   async function deleteDbAnalysis(videoId) {
     await fetch(
-      "https://youtubelabelsbackend.uc.r.appspot.com/delete-db-analysis",
+      "https://youtubelabelsbackendindia.el.r.appspot.com/delete-db-analysis",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -353,7 +353,7 @@ function extractAndDisplayInfo() {
 
         try {
           const response = await fetch(
-            "https://youtubelabelsbackend.uc.r.appspot.com/analyse-text",
+            "https://youtubelabelsbackendindia.el.r.appspot.com/analyse-text",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

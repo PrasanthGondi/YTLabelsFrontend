@@ -209,7 +209,7 @@
   async function fetchFromMongoDB(videoId) {
     try {
       const response = await fetch(
-        "https://youtubelabelsbackend.uc.r.appspot.com/database-check",
+        "https://youtubelabelsbackendindia.el.r.appspot.com/database-check",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -262,7 +262,7 @@
     }
     try {
       const response = await fetch(
-        "https://youtubelabelsbackend.uc.r.appspot.com/analyse-text-subscriptions",
+        "https://youtubelabelsbackendindia.el.r.appspot.com/analyse-text-subscriptions",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

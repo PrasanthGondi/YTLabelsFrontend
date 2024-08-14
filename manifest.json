@@ -12,13 +12,13 @@
     },
     "default_title": "YouTube Labels Options"
   },
-  "version": "1.3",
+  "version": "1.4",
   "options_page": "options.html",
   "permissions": ["activeTab", "storage"],
   "host_permissions": [
     "https://www.youtube.com/*",
     "http://localhost:2612/*",
-    "https://youtubelabelsbackend.uc.r.appspot.com/*"
+    "https://youtubelabelsbackendindia.el.r.appspot.com/*"
   ],
   "background": {
     "service_worker": "background.js"
