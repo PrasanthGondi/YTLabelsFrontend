@@ -359,7 +359,7 @@ function extractAndDisplayInfo() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 title: formattedTitle.textContent,
-                transcript: sizeInKB > 100 ? "TOO_LARGE" : transcript,
+                transcript: sizeInKB > 98 ? "TOO_LARGE" : transcript,
                 thumbnailUrl: thumbnailUrl,
                 videoId: getVideoId(),
                 geminiApiKey: geminiApiKey,
