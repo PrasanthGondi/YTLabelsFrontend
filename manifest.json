@@ -12,7 +12,7 @@
     },
     "default_title": "YouTube Labels Options"
   },
-  "version": "1.5",
+  "version": "1.6",
   "options_page": "options.html",
   "permissions": ["activeTab", "storage"],
   "host_permissions": [
