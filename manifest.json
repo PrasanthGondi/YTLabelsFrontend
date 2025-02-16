@@ -19,7 +19,9 @@
     "https://www.youtube.com/*",
     "https://gemini.google.com/*",
     "https://chat.openai.com/*",
-    "https://chatgpt.com/*"
+    "https://chatgpt.com/*",
+    "http://localhost:2612/*",
+    "https://youtubelabelsbackendindia.el.r.appspot.com/*"
   ],
   "background": {
     "service_worker": "background.js"
