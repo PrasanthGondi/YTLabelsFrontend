@@ -101,3 +101,29 @@ document.addEventListener("DOMContentLoaded", function () {
   setTheme();
 });
 document.getElementById("save").addEventListener("click", saveOptions);
+
+document.getElementById("clearCache").addEventListener("click", function () {
+  if (
+    confirm(
+      "Are you sure you want to clear all cached data? This action cannot be undone."
+    )
+  ) {
+    chrome.storage.local.clear(() => {
+      const status = document.getElementById("cacheStatus");
+      if (chrome.runtime.lastError) {
+        status.textContent =
+          "❌ Error clearing cache: " + chrome.runtime.lastError.message;
+        status.className = "error";
+      } else {
+        status.textContent = "✅ All cached analysis data cleared!";
+        status.className = "success";
+
+        // Remove status message after 3 seconds
+        setTimeout(() => {
+          status.textContent = "";
+          status.className = "";
+        }, 3000);
+      }
+    });
+  }
+});

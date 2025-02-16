@@ -220,6 +220,47 @@
       .notice-box strong {
         color: #d39e00; /* Slightly darker yellow */
       }
+
+      #clearCache {
+        background-color: #e50914; /* YouTube Red */
+        color: #ffffff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 10px;
+        display: inline-block;
+      }
+
+      #clearCache:hover {
+        background-color: #c40811; /* Darker Red */
+      }
+
+      #clearCache:active {
+        background-color: #a3060e; /* Even Darker Red */
+      }
+
+      /* Status Message Styling */
+      #cacheStatus {
+        font-size: 14px;
+        margin-top: 10px;
+        padding: 8px;
+        border-radius: 5px;
+        display: inline-block;
+      }
+
+      #cacheStatus.success {
+        background-color: #4caf50; /* Green */
+        color: white;
+      }
+
+      #cacheStatus.error {
+        background-color: #f44336; /* Red */
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -312,6 +353,11 @@
       <button id="saveModel">Save Preference</button>
       <p id="modelStatus"></p>
     </div>
+
+    <button id="clearCache">
+      Clear all cached video analyses from browser
+    </button>
+    <p id="cacheStatus"></p>
 
     <h2>Product Video</h2>
     <p>
