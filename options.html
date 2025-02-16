@@ -143,6 +143,83 @@
         margin-top: 20px;
         color: #999999;
       }
+      /* AI Model Selector Styling */
+      .ai-model-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .ai-model-label {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-color);
+      }
+
+      #aiModel {
+        width: 200px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 8px;
+        background-color: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      #aiModel:hover {
+        border-color: var(--button-hover);
+      }
+
+      #aiModel:focus {
+        outline: none;
+        border-color: var(--button-bg);
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+      }
+
+      #saveModel {
+        margin-top: 10px;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: var(--button-bg);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      #saveModel:hover {
+        background-color: var(--button-hover);
+      }
+
+      #modelStatus {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: var(--success-color);
+      }
+
+      .notice-box {
+        background-color: rgba(255, 193, 7, 0.2); /* Light yellow background */
+        border-left: 5px solid #ffc107; /* Yellow highlight */
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: var(--text-color);
+      }
+
+      .notice-box strong {
+        color: #d39e00; /* Slightly darker yellow */
+      }
     </style>
   </head>
   <body>
@@ -153,6 +230,31 @@
         style="width: 50px; height: 50px; margin-right: 10px"
       />
       <h1>YouTube Labels</h1>
+    </div>
+
+    <div class="notice-box">
+      <span style="font-weight: bold">🚀 Feature Update:</span><br /><br />
+      🔹
+      <span style="font-weight: bold"
+        >Subscriptions & Search Page Analysis</span
+      >
+      – This feature has been
+      <span style="font-weight: bold; color: red">temporarily removed</span> due
+      to YouTube policy changes. We are working on a way to
+      <span style="font-weight: bold">comply with YouTube’s policies</span> and
+      will bring it back soon.<br /><br />
+      🔹
+      <span style="font-weight: bold">AI Model Selector for Summaries</span> –
+      You can now <span style="font-weight: bold">choose between</span>
+      <span style="color: #1a73e8; font-weight: bold">ChatGPT</span> and
+      <span style="color: #ff5722; font-weight: bold">Gemini</span> for
+      generating
+      <span style="font-weight: bold">detailed video summaries</span>. Scroll
+      down to select your preferred model.<br /><br />
+      ✅ This update improves
+      <span style="font-weight: bold">stability and compliance</span> while
+      giving you <span style="font-weight: bold">more control</span> over how AI
+      generates summaries.
     </div>
 
     <h2>Enter Your Gemini API Key</h2>
@@ -198,6 +300,18 @@
         >ytlabelsdeveloper@gmail.com</a
       >
     </p>
+
+    <div class="ai-model-container">
+      <label for="aiModel" class="ai-model-label"
+        >Select AI Model for Summaries</label
+      >
+      <select id="aiModel">
+        <option value="gemini">Gemini</option>
+        <option value="chatgpt">ChatGPT</option>
+      </select>
+      <button id="saveModel">Save Preference</button>
+      <p id="modelStatus"></p>
+    </div>
 
     <h2>Product Video</h2>
     <p>

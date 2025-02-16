@@ -75,6 +75,27 @@ function restoreOptions() {
   );
 }
 
+function saveModelPreference() {
+  var selectedModel = document.getElementById("aiModel").value;
+  chrome.storage.sync.set({ selectedAIModel: selectedModel }, function () {
+    var status = document.getElementById("modelStatus");
+    status.textContent = "Preference saved successfully.";
+    status.className = "success";
+    setTimeout(() => (status.textContent = ""), 3000);
+  });
+}
+
+function restoreModelPreference() {
+  chrome.storage.sync.get({ selectedAIModel: "gemini" }, function (items) {
+    document.getElementById("aiModel").value = items.selectedAIModel;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", restoreModelPreference);
+document
+  .getElementById("saveModel")
+  .addEventListener("click", saveModelPreference);
+
 document.addEventListener("DOMContentLoaded", function () {
   restoreOptions();
   setTheme();

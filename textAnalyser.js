@@ -19,6 +19,8 @@ function extractAndDisplayInfo() {
 
   let processStarted = false;
 
+  let videoTranscript = "";
+
   function getVideoId() {
     return new URLSearchParams(window.location.search).get("v");
   }
@@ -175,6 +177,7 @@ function extractAndDisplayInfo() {
           const transcriptText = Array.from(transcriptSegments)
             .map((segment) => segment.textContent.trim())
             .join("\n");
+          videoTranscript = transcriptText;
           resolve(transcriptText);
         }
       });
@@ -183,7 +186,210 @@ function extractAndDisplayInfo() {
       setTimeout(() => {
         observer.disconnect();
         reject(new Error("Transcript loading timed out."));
-      }, 5000);
+      }, 15000);
+    });
+  }
+
+  //   function createDetailedSummaryLink(summaryElement, formattedTitle) {
+  //     if (!summaryElement) return;
+
+  //     const detailedSummaryLink = document.createElement("span");
+  //     detailedSummaryLink.id = "detailedSummaryLink";
+  //     detailedSummaryLink.textContent = " Generate a Detailed Summary";
+  //     detailedSummaryLink.style.color = "#1a73e8";
+  //     detailedSummaryLink.style.cursor = "pointer";
+  //     detailedSummaryLink.style.marginLeft = "5px";
+  //     detailedSummaryLink.style.fontWeight = "bold";
+
+  //     detailedSummaryLink.addEventListener("click", async function () {
+  //       try {
+  //         detailedSummaryLink.textContent = "Fetching transcript...";
+  //         detailedSummaryLink.style.color = "#888";
+  //         detailedSummaryLink.style.cursor = "wait";
+
+  //         console.log("Extracting transcript...");
+  //         const transcript = await extractTranscriptDirectly();
+
+  //         if (!transcript) {
+  //           throw new Error("Transcript not available");
+  //         }
+
+  //         // Prepare the prompt
+  //         const prompt = `Summarize the following transcript **precisely and concisely**, ensuring **no key points or topics are missed**. The summary must be in **English only**, regardless of the transcript's original language. **Keep the summary factual and neutral**.
+
+  // **Title:** "${formattedTitle.textContent}"
+
+  // **Transcript:** "${transcript}"`;
+
+  //         // Send message directly to background script with the prompt
+  //         chrome.runtime.sendMessage({
+  //           action: "openGeminiWithTranscript",
+  //           transcript: prompt,
+  //         });
+  //       } catch (error) {
+  //         console.error("Failed to extract transcript:", error);
+  //         alert("Failed to extract transcript: " + error.message);
+  //       } finally {
+  //         detailedSummaryLink.textContent = "Generate a Detailed Summary";
+  //         detailedSummaryLink.style.color = "#1a73e8";
+  //         detailedSummaryLink.style.cursor = "pointer";
+  //       }
+  //     });
+
+  //     summaryElement.appendChild(detailedSummaryLink);
+  //   }
+
+  //   function createDetailedSummaryLink(summaryElement, formattedTitle) {
+  //     if (!summaryElement) return;
+
+  //     const detailedSummaryContainer = document.createElement("div"); // New div to ensure new line
+  //     detailedSummaryContainer.style.marginTop = "10px"; // Add some spacing
+
+  //     const detailedSummaryLink = document.createElement("span");
+  //     detailedSummaryLink.id = "detailedSummaryLink";
+  //     detailedSummaryLink.textContent = "Generate a Detailed Summary"; // Removed leading space
+  //     detailedSummaryLink.style.color = "#1a73e8";
+  //     detailedSummaryLink.style.cursor = "pointer";
+  //     detailedSummaryLink.style.fontWeight = "bold";
+  //     detailedSummaryLink.style.display = "inline-block"; // Ensures it appears on a new line
+
+  //     detailedSummaryLink.addEventListener("click", async function () {
+  //       try {
+  //         detailedSummaryLink.textContent = "Fetching transcript...";
+  //         detailedSummaryLink.style.color = "#888";
+  //         detailedSummaryLink.style.cursor = "wait";
+
+  //         console.log("Extracting transcript...");
+  //         const transcript = await extractTranscriptDirectly();
+
+  //         if (!transcript) {
+  //           throw new Error("Transcript not available");
+  //         }
+
+  //         // Prepare the prompt
+  //         const prompt = `Summarize the following transcript **precisely and concisely**, ensuring **no key points or topics are missed**. The summary must be in **English only**, regardless of the transcript's original language. **Keep the summary factual and neutral**.
+
+  // **Title:** "${formattedTitle.textContent}"
+
+  // **Transcript:** "${transcript}"`;
+
+  //         // Send message directly to background script with the prompt
+  //         chrome.runtime.sendMessage({
+  //           action: "openGeminiWithTranscript",
+  //           transcript: prompt,
+  //         });
+  //       } catch (error) {
+  //         console.error("Failed to extract transcript:", error);
+  //         alert("Failed to extract transcript: " + error.message);
+  //       } finally {
+  //         detailedSummaryLink.textContent = "Generate a Detailed Summary";
+  //         detailedSummaryLink.style.color = "#1a73e8";
+  //         detailedSummaryLink.style.cursor = "pointer";
+  //       }
+  //     });
+
+  //     // Append the link inside the new container div
+  //     detailedSummaryContainer.appendChild(detailedSummaryLink);
+
+  //     // Append the container div below the summaryElement to ensure a new line
+  //     summaryElement.appendChild(detailedSummaryContainer);
+  //   }
+
+  function createDetailedSummaryLink(summaryElement, formattedTitle) {
+    if (!summaryElement) return;
+
+    const detailedSummaryContainer = document.createElement("div");
+    detailedSummaryContainer.style.marginTop = "10px";
+
+    const detailedSummaryLink = document.createElement("span");
+    detailedSummaryLink.id = "detailedSummaryLink";
+    detailedSummaryLink.textContent = "Generate a Detailed Summary";
+    detailedSummaryLink.style.color = "#1a73e8";
+    detailedSummaryLink.style.cursor = "pointer";
+    detailedSummaryLink.style.fontWeight = "bold";
+    detailedSummaryLink.style.display = "inline-block";
+
+    detailedSummaryLink.addEventListener("click", async function () {
+      try {
+        detailedSummaryLink.textContent = "Fetching transcript...";
+        detailedSummaryLink.style.color = "#888";
+        detailedSummaryLink.style.cursor = "wait";
+
+        console.log("Extracting transcript...");
+        const transcript = await extractTranscriptDirectly();
+
+        if (!transcript) {
+          throw new Error("Transcript not available");
+        }
+
+        // Prepare the prompt
+        const prompt = `Summarize the following transcript **precisely and concisely**, ensuring **no key points or topics are missed**. The summary must be in **English only**, regardless of the transcript's original language. **Keep the summary factual and neutral**.
+
+**Title:** "${formattedTitle.textContent}"
+
+**Transcript:** "${transcript}"`;
+
+        // Get the selected AI model from storage
+        chrome.storage.sync.get({ selectedAIModel: "gemini" }, function (data) {
+          const selectedModel = data.selectedAIModel;
+
+          chrome.runtime.sendMessage({
+            action: "openAIForSummary",
+            model: selectedModel,
+            transcript: prompt,
+          });
+        });
+      } catch (error) {
+        console.error("Failed to extract transcript:", error);
+        alert("Failed to extract transcript: " + error.message);
+      } finally {
+        detailedSummaryLink.textContent = "Generate a Detailed Summary";
+        detailedSummaryLink.style.color = "#1a73e8";
+        detailedSummaryLink.style.cursor = "pointer";
+      }
+    });
+
+    detailedSummaryContainer.appendChild(detailedSummaryLink);
+    summaryElement.appendChild(detailedSummaryContainer);
+  }
+
+  // Extract transcript directly (without cache)
+  async function extractTranscriptDirectly() {
+    console.log("📢 Extracting transcript directly...");
+
+    const showTranscriptButton = document.querySelector(
+      "#button-container #primary-button button"
+    );
+
+    if (!showTranscriptButton) {
+      throw new Error("🚫 Transcript not available for extraction");
+    }
+
+    showTranscriptButton.click();
+
+    return new Promise((resolve, reject) => {
+      const observer = new MutationObserver(() => {
+        const transcriptSegments = document.querySelectorAll(
+          "ytd-transcript-segment-renderer .segment-text"
+        );
+
+        if (transcriptSegments.length > 0) {
+          observer.disconnect();
+          const transcriptText = Array.from(transcriptSegments)
+            .map((segment) => segment.textContent.trim())
+            .join("\n");
+          closeTranscript();
+          resolve(transcriptText);
+        }
+      });
+
+      observer.observe(document, { childList: true, subtree: true });
+
+      setTimeout(() => {
+        observer.disconnect();
+        closeTranscript();
+        reject(new Error("Transcript loading timed out."));
+      }, 15000);
     });
   }
 
@@ -342,6 +548,7 @@ function extractAndDisplayInfo() {
 
         const jsonString = JSON.stringify(transcript);
         const sizeInKB = new Blob([jsonString]).size / 1024;
+        console.log("Transcript size:", sizeInKB, "KB");
         const geminiApiKey = await getApiKey();
         if (!geminiApiKey) {
           alert(
@@ -758,6 +965,8 @@ function extractAndDisplayInfo() {
       isDarkMode
     );
     createDescriptionDiv(titleElement, json.summary, isDarkMode);
+    const summaryElement = document.getElementById("customDescriptionDiv");
+    createDetailedSummaryLink(summaryElement, formattedTitle);
     createSideTextDiv(json.label, json.reasonForLabel);
     createClickbaitDiv(
       json.thumbnailAnalysis.clickbait,
@@ -941,10 +1150,53 @@ function extractAndDisplayInfo() {
     }
   }
 
+  // function createFactCheckDiv(factCheck, isDarkMode) {
+  //   if (!elements.factCheckDiv) {
+  //     elements.factCheckDiv = document.createElement("div");
+  //     elements.factCheckDiv.id = "factCheckDiv";
+  //     if (elements.thumbnailAuthenticityDiv) {
+  //       elements.thumbnailAuthenticityDiv.insertAdjacentElement(
+  //         "afterend",
+  //         elements.factCheckDiv
+  //       );
+  //     } else if (elements.clickbaitDiv) {
+  //       elements.clickbaitDiv.insertAdjacentElement(
+  //         "afterend",
+  //         elements.factCheckDiv
+  //       );
+  //     } else {
+  //       elements.sideTextDiv.insertAdjacentElement(
+  //         "afterend",
+  //         elements.factCheckDiv
+  //       );
+  //     }
+  //   }
+
+  //   elements.factCheckDiv.innerHTML = `<strong>Fact-check</strong> <span id="factCheckIcon" style="cursor: pointer;">ⓘ</span><span id="factCheckText" style="display: none;"> : ${factCheck}</span>`;
+
+  //   elements.factCheckDiv.style.padding = "10px";
+  //   elements.factCheckDiv.style.marginTop = "10px";
+  //   elements.factCheckDiv.style.fontSize = "13px";
+  //   elements.factCheckDiv.style.borderRadius = "10px";
+  //   elements.factCheckDiv.style.display = "inline-block";
+  //   elements.factCheckDiv.classList.add(
+  //     isDarkMode ? "youtube-dark-mode" : "youtube-light-mode"
+  //   );
+
+  //   const factCheckIcon = elements.factCheckDiv.querySelector("#factCheckIcon");
+  //   const factCheckSpan = elements.factCheckDiv.querySelector("#factCheckText");
+
+  //   factCheckIcon.addEventListener("click", function () {
+  //     factCheckSpan.style.display =
+  //       factCheckSpan.style.display === "none" ? "inline" : "none";
+  //   });
+  // }
+
   function createFactCheckDiv(factCheck, isDarkMode) {
     if (!elements.factCheckDiv) {
       elements.factCheckDiv = document.createElement("div");
       elements.factCheckDiv.id = "factCheckDiv";
+
       if (elements.thumbnailAuthenticityDiv) {
         elements.thumbnailAuthenticityDiv.insertAdjacentElement(
           "afterend",
@@ -963,8 +1215,17 @@ function extractAndDisplayInfo() {
       }
     }
 
-    elements.factCheckDiv.innerHTML = `<strong>Fact-check</strong> <span id="factCheckIcon" style="cursor: pointer;">ⓘ</span><span id="factCheckText" style="display: none;"> : ${factCheck}</span>`;
+    // ✅ Convert Markdown-like text to proper HTML
+    const formattedFactCheck = formatFactCheckText(factCheck);
 
+    // ✅ Use `innerHTML` safely for formatted content
+    elements.factCheckDiv.innerHTML = `
+        <strong>Fact-check</strong> 
+        <span id="factCheckIcon" style="cursor: pointer;">ⓘ</span>
+        <div id="factCheckText" style="display: none;">${formattedFactCheck}</div>
+    `;
+
+    // ✅ Apply styling for proper formatting
     elements.factCheckDiv.style.padding = "10px";
     elements.factCheckDiv.style.marginTop = "10px";
     elements.factCheckDiv.style.fontSize = "13px";
@@ -975,12 +1236,37 @@ function extractAndDisplayInfo() {
     );
 
     const factCheckIcon = elements.factCheckDiv.querySelector("#factCheckIcon");
-    const factCheckSpan = elements.factCheckDiv.querySelector("#factCheckText");
+    const factCheckTextDiv =
+      elements.factCheckDiv.querySelector("#factCheckText");
 
     factCheckIcon.addEventListener("click", function () {
-      factCheckSpan.style.display =
-        factCheckSpan.style.display === "none" ? "inline" : "none";
+      factCheckTextDiv.style.display =
+        factCheckTextDiv.style.display === "none" ? "block" : "none";
     });
+  }
+
+  function formatFactCheckText(text) {
+    if (!text) return "";
+
+    // Convert **bold** to <strong>bold</strong>
+    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // Convert *italic* to <em>italic</em>
+    text = text.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+    // Convert `Claim:` to a new bullet point for better visibility
+    text = text.replace(/(?:^|\n)(\*?\s?Claim:)/g, "<br>• <strong>$1</strong>");
+
+    // Ensure `Accuracy:` appears indented under each claim
+    text = text.replace(
+      /(?:^|\n)(\*?\s?Accuracy:)/g,
+      "<br><span style='margin-left: 20px;'>◦ <strong>$1</strong></span>"
+    );
+
+    // Preserve additional line breaks for better formatting
+    text = text.replace(/\n/g, "<br>");
+
+    return text;
   }
 
   function createSourceQueries(sourceSearchQueries, isDarkMode) {

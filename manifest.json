@@ -12,13 +12,14 @@
     },
     "default_title": "YouTube Labels Options"
   },
-  "version": "1.6",
+  "version": "1.7",
   "options_page": "options.html",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": [
     "https://www.youtube.com/*",
-    "http://localhost:2612/*",
-    "https://youtubelabelsbackendindia.el.r.appspot.com/*"
+    "https://gemini.google.com/*",
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -29,16 +30,6 @@
       "js": ["textAnalyser.js"],
       "css": ["styles.css"],
       "run_at": "document_idle"
-    },
-    {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["searchPageAnalysisWithTranscript.js"],
-      "css": ["styles.css"]
-    },
-    {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["subscriptionsPageAnalysis.js"],
-      "css": ["styles.css"]
     }
   ]
 }
