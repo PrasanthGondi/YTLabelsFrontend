@@ -1373,13 +1373,6 @@ function extractAndDisplayInfo() {
   });
 
   handleNavigation();
-
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && location.pathname.startsWith("/watch")) {
-      console.log("Tab became visible, re-checking video");
-      scheduleCheck(100);
-    }
-  });
 }
 
 extractAndDisplayInfo();
