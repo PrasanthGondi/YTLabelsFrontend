@@ -170,7 +170,7 @@ function extractAndDisplayInfo() {
     return new Promise((resolve, reject) => {
       const observer = new MutationObserver(() => {
         const transcriptSegments = document.querySelectorAll(
-          "ytd-transcript-segment-renderer .segment-text",
+          "ytd-transcript-segment-renderer .segment-text, transcript-segment-view-model span[role='text']",
         );
         // We need to get transcript from new modal too | We should also get auto generated transcript if available
         if (transcriptSegments.length > 0) {
@@ -371,7 +371,7 @@ function extractAndDisplayInfo() {
     return new Promise((resolve, reject) => {
       const observer = new MutationObserver(() => {
         const transcriptSegments = document.querySelectorAll(
-          "ytd-transcript-segment-renderer .segment-text",
+          "ytd-transcript-segment-renderer .segment-text, transcript-segment-view-model span[role='text']",
         );
 
         if (transcriptSegments.length > 0) {
@@ -1334,7 +1334,7 @@ function extractAndDisplayInfo() {
 
   function closeTranscript() {
     const closeButton = document.querySelector(
-      'button[aria-label="Close transcript"]',
+      'button[aria-label="Close transcript"], #visibility-button button[aria-label="Close"]',
     );
     if (closeButton) {
       closeButton.click();
@@ -1373,6 +1373,13 @@ function extractAndDisplayInfo() {
   });
 
   handleNavigation();
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && location.pathname.startsWith("/watch")) {
+      console.log("Tab became visible, re-checking video");
+      scheduleCheck(100);
+    }
+  });
 }
 
 extractAndDisplayInfo();
