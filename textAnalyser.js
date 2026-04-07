@@ -69,7 +69,7 @@ function extractAndDisplayInfo() {
   function isNewYouTubeLayout() {
     // Check for the "fixed-columns-secondary" div, which contains the new right sidebar
     const fixedColumnsSecondary = document.getElementById(
-      "fixed-columns-secondary"
+      "fixed-columns-secondary",
     );
 
     // Check for the "below" div inside "primary-inner", which now contains suggestions
@@ -110,7 +110,7 @@ function extractAndDisplayInfo() {
 
   async function extractTranscript() {
     const showTranscriptButton = document.querySelector(
-      "#button-container #primary-button button"
+      "#button-container #primary-button button",
     );
     if (!showTranscriptButton) {
       throw new Error("🚫 Transcript not available for analysis");
@@ -145,7 +145,7 @@ function extractAndDisplayInfo() {
       getRankedVideos(
         cachedAnalysis.generalizedTags,
         cachedAnalysis.specializedTags,
-        videoId
+        videoId,
       );
       return "CACHE_FOUND";
     }
@@ -170,8 +170,9 @@ function extractAndDisplayInfo() {
     return new Promise((resolve, reject) => {
       const observer = new MutationObserver(() => {
         const transcriptSegments = document.querySelectorAll(
-          "ytd-transcript-segment-renderer .segment-text"
+          "ytd-transcript-segment-renderer .segment-text",
         );
+        // We need to get transcript from new modal too | We should also get auto generated transcript if available
         if (transcriptSegments.length > 0) {
           observer.disconnect();
           const transcriptText = Array.from(transcriptSegments)
@@ -358,7 +359,7 @@ function extractAndDisplayInfo() {
     console.log("📢 Extracting transcript directly...");
 
     const showTranscriptButton = document.querySelector(
-      "#button-container #primary-button button"
+      "#button-container #primary-button button",
     );
 
     if (!showTranscriptButton) {
@@ -370,7 +371,7 @@ function extractAndDisplayInfo() {
     return new Promise((resolve, reject) => {
       const observer = new MutationObserver(() => {
         const transcriptSegments = document.querySelectorAll(
-          "ytd-transcript-segment-renderer .segment-text"
+          "ytd-transcript-segment-renderer .segment-text",
         );
 
         if (transcriptSegments.length > 0) {
@@ -422,7 +423,7 @@ function extractAndDisplayInfo() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ videoId }),
-      }
+      },
     );
 
     if (response.ok) {
@@ -433,7 +434,7 @@ function extractAndDisplayInfo() {
         getRankedVideos(
           data.analysis.generalizedTags,
           data.analysis.specializedTags,
-          videoId
+          videoId,
         );
         return "MONGO_FOUND";
       }
@@ -458,7 +459,7 @@ function extractAndDisplayInfo() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ generalizedTags, specializedTags, videoId }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -509,7 +510,7 @@ function extractAndDisplayInfo() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ videoId }),
-      }
+      },
     );
   }
 
@@ -528,7 +529,7 @@ function extractAndDisplayInfo() {
 
     if (titleElement && location.hostname === "www.youtube.com") {
       const formattedTitle = document.querySelector(
-        "yt-formatted-string.style-scope.ytd-watch-metadata"
+        "yt-formatted-string.style-scope.ytd-watch-metadata",
       );
 
       try {
@@ -541,7 +542,7 @@ function extractAndDisplayInfo() {
           console.log(
             `Data found in ${
               transcript === "CACHE_FOUND" ? "cache" : "MongoDB"
-            }`
+            }`,
           );
           return;
         }
@@ -552,7 +553,7 @@ function extractAndDisplayInfo() {
         const geminiApiKey = await getApiKey();
         if (!geminiApiKey) {
           alert(
-            "API key not found. Please set it up in the extension options."
+            "API key not found. Please set it up in the extension options.",
           );
           chrome.runtime.sendMessage({ action: "openOptionsPage" });
           return;
@@ -571,7 +572,7 @@ function extractAndDisplayInfo() {
                 videoId: getVideoId(),
                 geminiApiKey: geminiApiKey,
               }),
-            }
+            },
           );
 
           let json;
@@ -592,7 +593,7 @@ function extractAndDisplayInfo() {
             cacheAnalysis(getVideoId(), json);
             closeTranscript();
             handleAPIError(
-              new Error("🚨 Transcript is not safe for analysis 🚨")
+              new Error("🚨 Transcript is not safe for analysis 🚨"),
             );
             return;
           }
@@ -601,7 +602,7 @@ function extractAndDisplayInfo() {
             cacheAnalysis(getVideoId(), json);
             closeTranscript();
             handleAPIError(
-              new Error("🚫 Transcript is too large for analysis 🚫")
+              new Error("🚫 Transcript is too large for analysis 🚫"),
             );
             return;
           }
@@ -611,7 +612,7 @@ function extractAndDisplayInfo() {
           getRankedVideos(
             json.generalizedTags,
             json.specializedTags,
-            getVideoId()
+            getVideoId(),
           );
           handleAPIResponse(json);
         } catch (error) {
@@ -638,7 +639,7 @@ function extractAndDisplayInfo() {
       if (elements.sourceQueriesContainer) {
         elements.sourceQueriesContainer.insertAdjacentElement(
           "afterend",
-          elements.rankedVideosContainer
+          elements.rankedVideosContainer,
         );
       }
     }
@@ -821,7 +822,7 @@ function extractAndDisplayInfo() {
       elements.requestReanalyseButton.textContent = "Request Reanalysis ✍";
       rankedVideosContainer.insertAdjacentElement(
         "afterend",
-        elements.requestReanalyseButton
+        elements.requestReanalyseButton,
       );
 
       const isDarkMode = isYouTubeDarkTheme();
@@ -834,7 +835,7 @@ function extractAndDisplayInfo() {
       elements.requestReanalyseButton.style.fontSize = "14px";
       elements.requestReanalyseButton.style.display = "block";
       elements.requestReanalyseButton.classList.add(
-        isDarkMode ? "youtube-dark-mode" : "youtube-light-mode"
+        isDarkMode ? "youtube-dark-mode" : "youtube-light-mode",
       );
 
       elements.requestReanalyseButton.addEventListener(
@@ -850,12 +851,12 @@ function extractAndDisplayInfo() {
 
           // Create mailto link
           const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(
-            subject
+            subject,
           )}&body=${encodeURIComponent(body)}`;
 
           // Open default email client
           window.open(mailtoLink, "_blank");
-        }
+        },
       );
     }
   }
@@ -876,11 +877,11 @@ function extractAndDisplayInfo() {
               console.log("Tab became visible, processing video");
               document.removeEventListener(
                 "visibilitychange",
-                onVisibilityChange
+                onVisibilityChange,
               );
               setTimeout(processVideo, 1000);
             }
-          }
+          },
         );
       }
     } else {
@@ -890,7 +891,7 @@ function extractAndDisplayInfo() {
 
   function removeRankedVideosContainer() {
     const rankedVideosContainer = document.getElementById(
-      "ranked-videos-container"
+      "ranked-videos-container",
     );
     if (rankedVideosContainer) {
       rankedVideosContainer.remove();
@@ -928,7 +929,7 @@ function extractAndDisplayInfo() {
 
     const bodyStyles = getComputedStyle(document.body);
     const backgroundColor = bodyStyles.getPropertyValue(
-      "--yt-spec-base-background"
+      "--yt-spec-base-background",
     );
 
     if (backgroundColor) {
@@ -952,7 +953,7 @@ function extractAndDisplayInfo() {
         ? document.getElementById("player-container-outer")
         : document.querySelector("ytd-watch-metadata #title");
     const formattedTitle = document.querySelector(
-      "yt-formatted-string.style-scope.ytd-watch-metadata"
+      "yt-formatted-string.style-scope.ytd-watch-metadata",
     );
 
     const isDarkMode = isYouTubeDarkTheme();
@@ -962,7 +963,7 @@ function extractAndDisplayInfo() {
       titleElement,
       formattedTitle,
       json.accurateTitle,
-      isDarkMode
+      isDarkMode,
     );
     createDescriptionDiv(titleElement, json.summary, isDarkMode);
     const summaryElement = document.getElementById("customDescriptionDiv");
@@ -970,11 +971,11 @@ function extractAndDisplayInfo() {
     createSideTextDiv(json.label, json.reasonForLabel);
     createClickbaitDiv(
       json.thumbnailAnalysis.clickbait,
-      json.thumbnailAnalysis.clickbaitExplanation
+      json.thumbnailAnalysis.clickbaitExplanation,
     );
     createThumbnailAuthenticityDiv(
       json.thumbnailAnalysis.imageAuthenticity,
-      json.thumbnailAnalysis.imageAuthenticityExplanation
+      json.thumbnailAnalysis.imageAuthenticityExplanation,
     );
     createFactCheckDiv(json.factCheck, isDarkMode);
     createSourceQueries(json.sourceSearchQueries, isDarkMode);
@@ -984,7 +985,7 @@ function extractAndDisplayInfo() {
     titleElement,
     formattedTitle,
     accurateTitle,
-    isDarkMode
+    isDarkMode,
   ) {
     if (
       formattedTitle &&
@@ -996,7 +997,7 @@ function extractAndDisplayInfo() {
         elements.alternativeTitleElement.id = "alternativeTitle";
         titleElement.insertAdjacentElement(
           "afterend",
-          elements.alternativeTitleElement
+          elements.alternativeTitleElement,
         );
       }
       elements.alternativeTitleElement.textContent = `(${accurateTitle} 💯)`;
@@ -1019,7 +1020,7 @@ function extractAndDisplayInfo() {
       if (elements.alternativeTitleElement) {
         elements.alternativeTitleElement.insertAdjacentElement(
           "afterend",
-          elements.descriptionDiv
+          elements.descriptionDiv,
         );
       } else {
         titleElement.insertAdjacentElement("afterend", elements.descriptionDiv);
@@ -1031,7 +1032,7 @@ function extractAndDisplayInfo() {
     elements.descriptionDiv.style.fontSize = "14px";
     elements.descriptionDiv.style.borderRadius = "10px";
     elements.descriptionDiv.classList.add(
-      isDarkMode ? "youtube-dark-mode" : "youtube-light-mode"
+      isDarkMode ? "youtube-dark-mode" : "youtube-light-mode",
     );
   }
 
@@ -1041,7 +1042,7 @@ function extractAndDisplayInfo() {
       elements.sideTextDiv.id = "customSideTextDiv";
       elements.descriptionDiv.insertAdjacentElement(
         "afterend",
-        elements.sideTextDiv
+        elements.sideTextDiv,
       );
     }
 
@@ -1073,7 +1074,7 @@ function extractAndDisplayInfo() {
         elements.clickbaitDiv.id = "clickbaitDiv";
         elements.sideTextDiv.insertAdjacentElement(
           "afterend",
-          elements.clickbaitDiv
+          elements.clickbaitDiv,
         );
       }
 
@@ -1102,7 +1103,7 @@ function extractAndDisplayInfo() {
 
   function createThumbnailAuthenticityDiv(
     imageAuthenticity,
-    imageAuthenticityExplanation
+    imageAuthenticityExplanation,
   ) {
     if (imageAuthenticity !== "Authentic") {
       if (!elements.thumbnailAuthenticityDiv) {
@@ -1111,12 +1112,12 @@ function extractAndDisplayInfo() {
         if (elements.clickbaitDiv) {
           elements.clickbaitDiv.insertAdjacentElement(
             "afterend",
-            elements.thumbnailAuthenticityDiv
+            elements.thumbnailAuthenticityDiv,
           );
         } else {
           elements.sideTextDiv.insertAdjacentElement(
             "afterend",
-            elements.thumbnailAuthenticityDiv
+            elements.thumbnailAuthenticityDiv,
           );
         }
       }
@@ -1134,11 +1135,11 @@ function extractAndDisplayInfo() {
 
       const thumbnailAuthenticityIcon =
         elements.thumbnailAuthenticityDiv.querySelector(
-          "#thumbnailAuthenticityIcon"
+          "#thumbnailAuthenticityIcon",
         );
       const thumbnailAuthenticitySpan =
         elements.thumbnailAuthenticityDiv.querySelector(
-          "#thumbnailAuthenticityText"
+          "#thumbnailAuthenticityText",
         );
 
       thumbnailAuthenticityIcon.addEventListener("click", function () {
@@ -1200,17 +1201,17 @@ function extractAndDisplayInfo() {
       if (elements.thumbnailAuthenticityDiv) {
         elements.thumbnailAuthenticityDiv.insertAdjacentElement(
           "afterend",
-          elements.factCheckDiv
+          elements.factCheckDiv,
         );
       } else if (elements.clickbaitDiv) {
         elements.clickbaitDiv.insertAdjacentElement(
           "afterend",
-          elements.factCheckDiv
+          elements.factCheckDiv,
         );
       } else {
         elements.sideTextDiv.insertAdjacentElement(
           "afterend",
-          elements.factCheckDiv
+          elements.factCheckDiv,
         );
       }
     }
@@ -1232,7 +1233,7 @@ function extractAndDisplayInfo() {
     elements.factCheckDiv.style.borderRadius = "10px";
     elements.factCheckDiv.style.display = "inline-block";
     elements.factCheckDiv.classList.add(
-      isDarkMode ? "youtube-dark-mode" : "youtube-light-mode"
+      isDarkMode ? "youtube-dark-mode" : "youtube-light-mode",
     );
 
     const factCheckIcon = elements.factCheckDiv.querySelector("#factCheckIcon");
@@ -1260,7 +1261,7 @@ function extractAndDisplayInfo() {
     // Ensure `Accuracy:` appears indented under each claim
     text = text.replace(
       /(?:^|\n)(\*?\s?Accuracy:)/g,
-      "<br><span style='margin-left: 20px;'>◦ <strong>$1</strong></span>"
+      "<br><span style='margin-left: 20px;'>◦ <strong>$1</strong></span>",
     );
 
     // Preserve additional line breaks for better formatting
@@ -1284,32 +1285,32 @@ function extractAndDisplayInfo() {
       elements.sourceQueriesHeading.classList.add("source-queries-heading");
       elements.factCheckDiv.insertAdjacentElement(
         "afterend",
-        elements.sourceQueriesHeading
+        elements.sourceQueriesHeading,
       );
 
       elements.sourceQueriesContainer.innerHTML = sourceSearchQueries
         .map(
           (query, index) => `
         <a href="https://www.google.com/search?q=${encodeURIComponent(
-          query
+          query,
         )}" id="sourceQuery${index}" target="_blank">
           <strong>${query}</strong>
         </a>
-      `
+      `,
         )
         .join("");
 
       elements.sourceQueriesContainer.querySelectorAll("a").forEach((link) => {
         link.classList.add("source-query");
         link.classList.add(
-          isDarkMode ? "youtube-dark-mode" : "youtube-light-mode"
+          isDarkMode ? "youtube-dark-mode" : "youtube-light-mode",
         );
       });
 
       elements.sourceQueriesContainer.style.marginBottom = "10px";
       elements.sourceQueriesHeading.insertAdjacentElement(
         "afterend",
-        elements.sourceQueriesContainer
+        elements.sourceQueriesContainer,
       );
     }
   }
@@ -1333,7 +1334,7 @@ function extractAndDisplayInfo() {
 
   function closeTranscript() {
     const closeButton = document.querySelector(
-      'button[aria-label="Close transcript"]'
+      'button[aria-label="Close transcript"]',
     );
     if (closeButton) {
       closeButton.click();
